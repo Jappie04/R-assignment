@@ -47,7 +47,7 @@ for (n in 1:N.arma) {
   aic.ar[n] <- fit$aic
 }
 plot(1:N.arma, aic.ar[1:N.arma], type="l", ylab="Aikake Information Criterion", xlab="order of AR")
-plot(5:N.arma, aic.ar(5:N.arma), type="l", ylab="Aikake Information Criterion", xlab="order of AR")
+plot(5:N.arma, aic.ar[5:N.arma], type="l", ylab="Aikake Information Criterion", xlab="order of AR")
 
 K.arma = 5
 aic.ma = rep(NA, K.arma)
@@ -69,4 +69,22 @@ for (n in 0:max.order) {
     print(arima(x.detrend.scaled, order = c(n,0,k), include.mean = FALSE)$aic)
   }
 }
+
+model <- arima(x.detrend.scaled, order=c(5,0,0), include.mean=FALSE)
+fitted.values <- fitted(model)
+
+residuals <- residuals(model)
+mean(residuals^2)
+
+plot(residuals, type="p", ylab = "Residuals")
+abline(h = 0, col = "red")
+plot(residuals[1:100], ylab = "Residuals")
+
+plot(x.detrend.scaled, type="l", ylab = "Value", xlab = "Time")
+lines(fitted.values, col = "hotpink", lwd = 2)
+
+
+plot(x.detrend.scaled[1:100], type="l", ylab = "Value", xlab = "Time")
+lines(fitted.values[1:100], col = "hotpink", lwd = 2)
+
 
